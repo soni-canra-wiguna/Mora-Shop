@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from "zod"
 
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "@/server/api/trpc"
 
 export const postRouter = createTRPCRouter({
   hello: publicProcedure
@@ -8,7 +8,7 @@ export const postRouter = createTRPCRouter({
     .query(({ input }) => {
       return {
         greeting: `Hello ${input.text}`,
-      };
+      }
     }),
 
   create: publicProcedure
@@ -18,14 +18,35 @@ export const postRouter = createTRPCRouter({
         data: {
           name: input.name,
         },
-      });
+      })
     }),
 
   getLatest: publicProcedure.query(async ({ ctx }) => {
     const post = await ctx.db.post.findFirst({
       orderBy: { createdAt: "desc" },
-    });
+    })
 
-    return post ?? null;
+    return post ?? null
   }),
-});
+
+  update: publicProcedure
+    .input(z.object({ name: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.post.update({
+        where: {
+          id: parseInt(input.name),
+        },
+        data: {
+          name: input.name,
+        },
+      })
+    }),
+
+  delete: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    return ctx.db.post.delete({
+      where: {
+        name: input,
+      },
+    })
+  }),
+})
