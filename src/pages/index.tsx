@@ -4,9 +4,17 @@ import Link from "next/link"
 import { api } from "@/utils/api"
 
 export default function Home() {
-  const hello = api.post.hello.useQuery({ text: "from tRPC" })
-  const { isPending, isError, mutate } = api.post.create.useMutation()
-  const {} = api.post.getLatest.useQuery()
+  // const ctx = api.useUtils()
+  // const hello = api.post.hello.useQuery({ text: "from tRPC" })
+  // const { isPending, isError, mutate } = api.post.create.useMutation({
+  //   onSuccess: async () => {
+  //     // invalidate query after succes create post
+  //     // invliadate getLatest query
+  //     ctx.post.getLatest.invalidate()
+  //   },
+  // })
+
+  //
 
   return (
     <>
@@ -21,10 +29,10 @@ export default function Home() {
             Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
           </h1>
           <div className="grow text-white">
-            the change file is so fast for me
+            <Link href="/blog">go to blog</Link>
           </div>
           <p className="text-2xl text-white">
-            {hello.data ? hello.data.greeting : "Loading tRPC query..."}
+            {/* {hello.data ? hello.data.greeting : "Loading tRPC query..."} */}
           </p>
         </div>
       </main>
