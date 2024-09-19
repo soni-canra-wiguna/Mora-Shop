@@ -1,5 +1,6 @@
 import { GeistSans } from "geist/font/sans"
 import { type AppType } from "next/app"
+import { ClerkProvider } from "@clerk/nextjs"
 import { MainLayout } from "@/components/layout/main-layout"
 
 import { api } from "@/utils/api"
@@ -8,9 +9,11 @@ import "@/styles/globals.css"
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <MainLayout className={GeistSans.className}>
-      <Component {...pageProps} />
-    </MainLayout>
+    <ClerkProvider>
+      <MainLayout className={GeistSans.className}>
+        <Component {...pageProps} />
+      </MainLayout>
+    </ClerkProvider>
   )
 }
 
