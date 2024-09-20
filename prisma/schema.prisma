@@ -11,29 +11,6 @@ datasource db {
     url      = "file:./dev.db" // working locally
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
-}
-
-model Blog {
-    id        Int     @id @default(autoincrement())
-    title     String
-    image     String
-    category  String
-    content   String
-    isPublish Boolean @default(true)
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([title, category])
-}
-
 model Gold {
     id       Int     @id @default(autoincrement())
     quantity Int
