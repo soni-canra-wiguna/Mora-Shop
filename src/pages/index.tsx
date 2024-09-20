@@ -5,6 +5,7 @@ import { SignUpButton } from "@clerk/nextjs"
 import { api } from "@/utils/api"
 import { Button } from "@/components/ui/button"
 import { ThemeSwitcher } from "@/components/theme-swithcer"
+import { Container } from "@/components/layout/container"
 
 export default function Home() {
   // const ctx = api.useUtils()
@@ -27,10 +28,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen w-full">
-        <SignUpButton mode="modal">
-          <Button>Sign up</Button>
-        </SignUpButton>
-        <ThemeSwitcher />
+        <Container>hello world</Container>
       </main>
     </>
   )
