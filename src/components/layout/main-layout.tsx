@@ -10,7 +10,7 @@ export interface MainLayoutProps extends WithChildren {
 export const MainLayout = ({ children, className }: MainLayoutProps) => {
   return (
     <div className={className}>
-      <PagesTopLoader color="#000000" height={3} showSpinner={false} />
+      <PagesTopLoader color="#fc7303" height={3} showSpinner={false} />
       <Navbar />
       {children}
       <Footer />
