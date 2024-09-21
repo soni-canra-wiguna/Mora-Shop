@@ -28,7 +28,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen w-full">
-        <Container>hello world</Container>
+        <Container>
+          hello world
+          <div>
+            <Link href="/topup">topup page</Link>
+          </div>
+        </Container>
       </main>
     </>
   )
