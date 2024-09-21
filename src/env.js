@@ -12,6 +12,9 @@ export const env = createEnv({
       .enum(["development", "test", "production"])
       .default("development"),
     TURSO_AUTH_TOKEN: z.string(),
+    CLERK_SECRET_KEY: z.string(),
+    MIDTRANS_SERVER_KEY: z.string(),
+    MIDTRANS_CLIENT_KEY: z.string(),
   },
 
   /**
@@ -20,6 +23,9 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
+    NEXT_PUBLIC_MIDTRANS_SANDBOX: z.string(),
+    NEXT_PUBLIC_MIDTRANS_PRODUCTION: z.string(),
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
   },
 
@@ -31,6 +37,16 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
+
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+
+    MIDTRANS_SERVER_KEY: process.env.MIDTRANS_SERVER_KEY,
+    MIDTRANS_CLIENT_KEY: process.env.MIDTRANS_CLIENT_KEY,
+    NEXT_PUBLIC_MIDTRANS_SANDBOX: process.env.NEXT_PUBLIC_MIDTRANS_SANDBOX,
+    NEXT_PUBLIC_MIDTRANS_PRODUCTION:
+      process.env.NEXT_PUBLIC_MIDTRANS_PRODUCTION,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
