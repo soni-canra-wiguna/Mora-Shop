@@ -65,9 +65,9 @@ export const Navbar = () => {
     <header className="w-full">
       <Container>
         <div className="my-10 flex items-center justify-between">
-          <div>
+          <Link href="/">
             <h1 className="text-3xl font-bold">Mora</h1>
-          </div>
+          </Link>
           <TopupGold />
           <div className="flex items-center gap-8">
             {/* <ShoppingBag className="size-6" /> */}
