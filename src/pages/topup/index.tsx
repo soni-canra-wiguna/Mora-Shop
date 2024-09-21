@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { toast } from "@/hooks/use-toast"
 import { formatToIDR } from "@/utils/format-to-idr"
-import { useUser } from "@clerk/nextjs"
+import { useAuth, useUser } from "@clerk/nextjs"
 import Head from "next/head"
 
 interface GoldItemProps {
@@ -72,7 +72,7 @@ export default function TopupPage() {
 }
 
 const GoldItem = ({ image, label, quantity, price }: GoldItemProps) => {
-  const { isSignedIn } = useUser()
+  const { isSignedIn, user } = useUser()
   function handleTopup() {
     if (!isSignedIn) {
       toast({
@@ -82,8 +82,9 @@ const GoldItem = ({ image, label, quantity, price }: GoldItemProps) => {
       })
     } else {
       toast({
-        title: "topup berhasil",
+        title: `role : ${user.publicMetadata.role}`,
       })
+      console.log()
     }
   }
 
