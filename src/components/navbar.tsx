@@ -1,4 +1,4 @@
-import { SignOutButton, SignUpButton, useUser } from "@clerk/nextjs"
+import { SignInButton, SignOutButton, SignUpButton, useUser } from "@clerk/nextjs"
 import { Container } from "./layout/container"
 import { Button } from "./ui/button"
 import { ThemeSwitcher } from "./theme-swithcer"
@@ -32,9 +32,9 @@ const ProfileAccount = () => {
   }
 
   return (
-    <SignUpButton mode="modal" fallbackRedirectUrl="/">
-      <Button>Sign up</Button>
-    </SignUpButton>
+    <SignInButton mode="modal" fallbackRedirectUrl="/">
+      <Button className='capitalize'>Sign In</Button>
+    </SignInButton>
   )
 }
 
