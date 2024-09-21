@@ -1,11 +1,18 @@
-import { SignInButton, SignOutButton, SignUpButton, useUser } from "@clerk/nextjs"
+import {
+  SignInButton,
+  SignOutButton,
+  SignUpButton,
+  useUser,
+} from "@clerk/nextjs"
 import { Container } from "./layout/container"
 import { Button } from "./ui/button"
 import { ThemeSwitcher } from "./theme-swithcer"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Skeleton } from "./ui/skeleton"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import { ShoppingBag } from "lucide-react"
+import { Plus, ShoppingBag } from "lucide-react"
+import Link from "next/link"
+import { Separator } from "./ui/separator"
 
 const ProfileAccount = () => {
   const { isLoaded, isSignedIn, user } = useUser()
@@ -33,8 +40,23 @@ const ProfileAccount = () => {
 
   return (
     <SignInButton mode="modal" fallbackRedirectUrl="/">
-      <Button className='capitalize'>Sign In</Button>
+      <Button className="capitalize">Sign In</Button>
     </SignInButton>
+  )
+}
+
+const TopupGold = () => {
+  return (
+    <Link href="/topup">
+      <Button className="h-fit p-2" variant="neutral">
+        <div className="flex items-center gap-2">
+          <img src="/coin.png" className="size-4" />
+          <span className="pr-4">100</span>
+        </div>
+        <Separator orientation="vertical" />
+        <Plus className="size-4" />
+      </Button>
+    </Link>
   )
 }
 
@@ -46,9 +68,10 @@ export const Navbar = () => {
           <div>
             <h1 className="text-3xl font-bold">Mora</h1>
           </div>
+          <TopupGold />
           <div className="flex items-center gap-8">
-            <ShoppingBag className="size-6" />
-            {/* <ThemeSwitcher /> */}
+            {/* <ShoppingBag className="size-6" /> */}
+            <ThemeSwitcher />
             <ProfileAccount />
           </div>
         </div>
