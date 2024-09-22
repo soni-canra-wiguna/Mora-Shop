@@ -44,7 +44,7 @@ export default async function handler(
         //     name: productName,
         //   },
         // ],
-        customer_id: {
+        customer_details: {
           user_id: userId,
           email: email,
         },
