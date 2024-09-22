@@ -3,13 +3,27 @@ import type { NextApiRequest, NextApiResponse } from "next"
 // @ts-ignore
 import MidtransClient from "midtrans-client"
 import { env } from "@/env"
+import { z } from "zod"
+
+const TransactionSchema = z.object({
+  productId: z.string().min(1, "Product ID is required"),
+  productName: z.string().min(1, "Product Name is required"),
+  email: z.string().email("Invalid email format"),
+  price: z.number().positive("Price must be a positive number"),
+  quantity: z.number().positive("Quantity must be a positive number"),
+  userId: z.string().min(1, "User ID is required"),
+})
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const { productId, productName, email, price, quantity, userId } = req.body
+    // const { productId, productName, email, price, quantity, userId } = req.body
+    const validatedData = TransactionSchema.parse(req.body)
+
+    const { productId, productName, email, price, quantity, userId } =
+      validatedData
     // const { userId } = getAuth(req)
 
     // if (!userId) {
@@ -19,7 +33,7 @@ export default async function handler(
     let snap = new MidtransClient.Snap({
       isProduction: false,
       serverKey: env.MIDTRANS_SERVER_KEY,
-      clientKey: env.MIDTRANS_CLIENT_KEY,
+      clientKey: env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY,
     })
 
     try {
