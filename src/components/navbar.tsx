@@ -66,7 +66,9 @@ export const Navbar = () => {
       <Container>
         <div className="my-10 flex items-center justify-between">
           <Link href="/">
-            <h1 className="text-3xl font-bold">Mora</h1>
+            <h1 className="text-xl font-bold capitalize sm:text-2xl lg:text-3xl">
+              Mora shop
+            </h1>
           </Link>
           <TopupGold />
           <div className="flex items-center gap-8">
