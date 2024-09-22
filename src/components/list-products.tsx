@@ -14,7 +14,7 @@ const ItemProduct = ({ name, image, priceInGold }: ItemProductProps) => {
         <img src={image} alt={name} className="h-full w-full object-cover" />
       </div>
       <Button size="lg" variant="neutral">
-        <img src="/coin.png" alt="coin" className="size-5" />
+        <img src="/coin.png" alt="coin" className="mr-2 size-5" />
         <span className="font-semibold">{priceInGold} Gold</span>
       </Button>
     </Card>
