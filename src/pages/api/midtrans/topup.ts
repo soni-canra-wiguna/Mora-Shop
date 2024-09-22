@@ -1,4 +1,3 @@
-import { getAuth } from "@clerk/nextjs/server"
 import type { NextApiRequest, NextApiResponse } from "next"
 // @ts-ignore
 import MidtransClient from "midtrans-client"
@@ -19,16 +18,11 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    // const { productId, productName, email, price, quantity, userId } = req.body
-    const validatedData = TransactionSchema.parse(req.body)
+    const { productId, productName, email, price, quantity, userId } = req.body
 
-    const { productId, productName, email, price, quantity, userId } =
-      validatedData
-    // const { userId } = getAuth(req)
-
-    // if (!userId) {
-    //   return res.status(401).json({ message: "User not authenticated" })
-    // }
+    if (!userId) {
+      return res.status(401).json({ message: "User not authenticated" })
+    }
 
     let snap = new MidtransClient.Snap({
       isProduction: false,
@@ -39,17 +33,17 @@ export default async function handler(
     try {
       const transactionToken = await snap.createTransactionToken({
         transaction_details: {
-          order_id: `ORDER-${Date.now()}`, // Buat order_id yang unik
-          gross_amount: price * 1000,
+          order_id: `ORDER-${Date.now()}`,
+          gross_amount: price,
         },
-        item_details: [
-          {
-            id: productId,
-            price: price,
-            quantity: quantity,
-            name: productName,
-          },
-        ],
+        // item_details: [
+        //   {
+        //     id: productId,
+        //     price: price,
+        //     quantity: quantity,
+        //     name: productName,
+        //   },
+        // ],
         customer_id: {
           user_id: userId,
           email: email,
