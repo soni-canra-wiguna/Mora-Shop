@@ -6,6 +6,7 @@ import { api } from "@/utils/api"
 import { Button } from "@/components/ui/button"
 import { ThemeSwitcher } from "@/components/theme-swithcer"
 import { Container } from "@/components/layout/container"
+import { ListProducts } from "@/components/list-products"
 
 export default function Home() {
   // const ctx = api.useUtils()
@@ -29,10 +30,7 @@ export default function Home() {
       </Head>
       <main className="flex min-h-screen w-full">
         <Container>
-          hello world
-          <div>
-            <Link href="/topup">topup page</Link>
-          </div>
+          <ListProducts />
         </Container>
       </main>
     </>
