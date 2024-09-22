@@ -5,7 +5,7 @@ import MidtransClient from "midtrans-client"
 import { env } from "@/env"
 import { z } from "zod"
 
-const TransactionSchema = z.object({
+export const TransactionSchema = z.object({
   productId: z.string().min(1, "Product ID is required"),
   productName: z.string().min(1, "Product Name is required"),
   email: z.string().email("Invalid email format"),
