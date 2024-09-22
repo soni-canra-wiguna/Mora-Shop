@@ -11,7 +11,6 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    TURSO_AUTH_TOKEN: z.string(),
     CLERK_SECRET_KEY: z.string(),
     MIDTRANS_SERVER_KEY: z.string(),
   },
@@ -36,7 +35,6 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
 
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
       process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
