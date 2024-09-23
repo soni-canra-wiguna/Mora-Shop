@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server"
 import midtransClient from "midtrans-client"
 import { db } from "@/server/db"
 
+/*
+  payload req.json()
+  https://docs.midtrans.com/docs/https-notification-webhooks
+*/
+
 export const POST = async (req: NextRequest) => {
   if (req.method === "POST") {
     const { order_id, transaction_status } = await req.json()
@@ -24,21 +29,18 @@ export const POST = async (req: NextRequest) => {
         statusResponse.order_id.split("-")
 
       if (transaction_status === "settlement" || "capture") {
-        console.log("PAID")
-        // // which is success
-        // const goldAmount = parseInt(quantity)
+        const goldAmount = parseInt(quantity)
 
-        // // add user gold
-        // await db.user.update({
-        //   where: {
-        //     clerkId: userId,
-        //   },
-        //   data: {
-        //     gold: {
-        //       increment: goldAmount,
-        //     },
-        //   },
-        // })
+        await db.user.update({
+          where: {
+            clerkId: userId,
+          },
+          data: {
+            gold: {
+              increment: goldAmount,
+            },
+          },
+        })
         return NextResponse.json({ message: "Gold updated successfully" })
       } else {
         return NextResponse.json({ message: "Transaction not completed" })
