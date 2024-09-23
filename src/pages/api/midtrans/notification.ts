@@ -8,9 +8,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const { order_id, transaction_status } = req.body
-
-    console.log(req.body)
+    const { order_id } = req.body
 
     let snap = new midtransClient.Snap({
       isProduction: false,
@@ -20,14 +18,14 @@ export default async function handler(
     try {
       // cek transaksi berdasarkan order id
       const statusResponse = await snap.transaction.status(order_id)
+      const [prefix, quantity, userId, productId] =
+        statusResponse.order_id.split("-")
 
-      // if (statusResponse.transaction.status === "settlement") {
-      if (transaction_status === "settlement") {
-        // transaction success
-        const goldAmount = statusResponse.gross_amount / 1000
-        const userId = statusResponse.oder_id.split("-")[1]
+      if (statusResponse.transaction.status === "settlement") {
+        // which is success
+        const goldAmount = parseInt(quantity)
 
-        // tambahkan user gold
+        // add user gold
         await db.user.update({
           where: {
             clerkId: userId,
