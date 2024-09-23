@@ -3,21 +3,23 @@ import { env } from "@/env"
 import Head from "next/head"
 import { useEffect } from "react"
 import { ListTopup } from "@/components/list-topup"
+import NextScript from "next/script"
 
 export default function TopupPage() {
   // run side effect to handle snap.pay
-  useEffect(() => {
-    const snapUrl = "https://app.sandbox.midtrans.com/snap/snap.js"
-    const script = document.createElement("script")
-    script.src = snapUrl
-    script.setAttribute("data-client-key", env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY)
+  // useEffect(() => {
+  //   const snapUrl = "https://app.sandbox.midtrans.com/snap/snap.js"
+  //   const script = document.createElement("script")
+  //   script.src = snapUrl
+  //   script.setAttribute("data-client-key", env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY)
+  //   script.async = true
 
-    document.body.appendChild(script)
+  //   document.body.appendChild(script)
 
-    return () => {
-      document.body.removeChild(script)
-    }
-  }, [])
+  //   return () => {
+  //     document.body.removeChild(script)
+  //   }
+  // }, [])
 
   return (
     <>
@@ -30,6 +32,12 @@ export default function TopupPage() {
           <ListTopup />
         </Container>
       </main>
+      <NextScript
+        src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key={env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
+        strategy="lazyOnload"
+        async
+      />
     </>
   )
 }
