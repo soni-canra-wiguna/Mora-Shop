@@ -6,13 +6,11 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import { initTRPC, TRPCError } from "@trpc/server"
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next"
+import { initTRPC } from "@trpc/server"
 import superjson from "superjson"
 import { ZodError } from "zod"
 
 import { db } from "@/server/db"
-import { getAuth } from "@clerk/nextjs/server"
 
 /**
  * 1. CONTEXT
@@ -20,39 +18,16 @@ import { getAuth } from "@clerk/nextjs/server"
  * This section defines the "contexts" that are available in the backend API.
  *
  * These allow you to access things when processing a request, like the database, the session, etc.
- */
-
-type CreateContextOptions = Record<string, never>
-
-/**
- * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
- * it from here.
  *
- * Examples of things you may need it for:
- * - testing, so we don't have to mock Next.js' req/res
- * - tRPC's `createSSGHelpers`, where we don't have req/res
+ * This helper generates the "internals" for a tRPC context. The API handler and RSC clients each
+ * wrap this and provides the required context.
  *
- * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
+ * @see https://trpc.io/docs/server/context
  */
-const createInnerTRPCContext = (_opts: CreateContextOptions) => {
+export const createTRPCContext = async (opts: { headers: Headers }) => {
   return {
     db,
-  }
-}
-
-/**
- * This is the actual context you will use in your router. It will be used to process every request
- * that goes through your tRPC endpoint.
- *
- * @see https://trpc.io/docs/context
- */
-export const createTRPCContext = (_opts: CreateNextContextOptions) => {
-  const { req } = _opts
-  const auth = getAuth(req)
-
-  return {
-    ...createInnerTRPCContext({}),
-    auth,
+    ...opts,
   }
 }
 
@@ -63,7 +38,6 @@ export const createTRPCContext = (_opts: CreateNextContextOptions) => {
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
@@ -130,19 +104,3 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
  * are logged in.
  */
 export const publicProcedure = t.procedure.use(timingMiddleware)
-
-// private procedure
-const enforceUserAuth = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.auth || !ctx.auth.userId) {
-    throw new TRPCError({ code: "UNAUTHORIZED" }) // Throw an error if user is not authenticated
-  }
-
-  return next({
-    ctx: {
-      // Pass the userId to the procedure if needed
-      user: ctx.auth,
-    },
-  })
-})
-
-export const privateProcedure = t.procedure.use(enforceUserAuth)

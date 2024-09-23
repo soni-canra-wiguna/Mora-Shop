@@ -1,10 +1,26 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { toast } from "@/hooks/use-toast"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { useAuth, useUser } from "@clerk/nextjs"
 import axios from "axios"
-import { MidtransDataType } from "@/pages/api/midtrans/topup"
+import { z } from "zod"
+
+export const TransactionSchema = z.object({
+  productId: z.string().min(1, "Product ID is required"),
+  productName: z.string().min(1, "Product Name is required"),
+  email: z.string().email("Invalid email format"),
+  price: z.number().positive("Price must be a positive number"),
+  quantity: z.number().positive("Quantity must be a positive number"),
+  userId: z.string().min(1, "User ID is required"),
+})
+
+export type MidtransDataType = z.infer<typeof TransactionSchema> & {
+  first_name: string
+  last_name: string
+}
 
 interface GoldItemProps {
   label: string

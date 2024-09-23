@@ -1,3 +1,5 @@
+"use client"
+
 import {
   SignInButton,
   SignOutButton,
@@ -73,7 +75,7 @@ export const Navbar = () => {
           <TopupGold />
           <div className="flex items-center gap-8">
             {/* <ShoppingBag className="size-6" /> */}
-            <ThemeSwitcher />
+            {/* <ThemeSwitcher /> */}
             <ProfileAccount />
           </div>
         </div>
