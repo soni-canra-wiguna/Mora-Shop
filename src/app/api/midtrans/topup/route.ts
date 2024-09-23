@@ -7,7 +7,16 @@ export const POST = async (req: NextRequest) => {
     // Langsung validasi data dari `req.body`
     const request = await req.json()
 
-    const { productId, productName, email, price, quantity, userId } = request
+    const {
+      productId,
+      productName,
+      email,
+      price,
+      quantity,
+      userId,
+      first_name,
+      last_name,
+    } = request
 
     // Midtrans setup & transaction logic goes here...
     let snap = new MidtransClient.Snap({
@@ -17,7 +26,7 @@ export const POST = async (req: NextRequest) => {
     })
 
     const grossAmount = price
-    const orderId = `MS-${quantity}-${userId}-${productId}`
+    const orderId = `MS-${quantity}-${userId}-${productId}-${Date.now().toString().slice(-5)}`
 
     const transactionToken = await snap.createTransactionToken({
       transaction_details: {
@@ -34,7 +43,8 @@ export const POST = async (req: NextRequest) => {
       //   },
       // ],
       customer_details: {
-        user_id: userId,
+        first_name,
+        last_name,
         email: email,
       },
     })
