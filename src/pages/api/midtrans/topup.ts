@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-// @ts-ignore
 import MidtransClient from "midtrans-client"
 import { env } from "@/env"
 import { z } from "zod"
@@ -13,16 +12,29 @@ export const TransactionSchema = z.object({
   userId: z.string().min(1, "User ID is required"),
 })
 
+export type MidtransDataType = z.infer<typeof TransactionSchema> & {
+  first_name: string
+  last_name: string
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const { productId, productName, email, price, quantity, userId } = req.body
+    const {
+      productId,
+      productName,
+      email,
+      price,
+      quantity,
+      userId,
+      first_name,
+      last_name,
+    }: MidtransDataType = req.body
 
-    if (!userId) {
-      return res.status(401).json({ message: "User not authenticated" })
-    }
+    const orderId = `MS-${quantity}-${userId}-${productId}`
+    const grossAmount = Number(price)
 
     let snap = new MidtransClient.Snap({
       isProduction: false,
@@ -33,24 +45,23 @@ export default async function handler(
     try {
       const transactionToken = await snap.createTransactionToken({
         transaction_details: {
-          order_id: `ORDER-${Date.now()}`,
-          gross_amount: price,
+          order_id: orderId,
+          gross_amount: grossAmount,
         },
-        // item_details: [
-        //   {
-        //     id: productId,
-        //     price: price,
-        //     quantity: quantity,
-        //     name: productName,
-        //   },
-        // ],
+        // item_details: [{
+        //   id: productId,
+        //   name: productName,
+        //   price: price,
+        //   quantity: quantity,
+        // }],
         customer_details: {
-          user_id: userId,
-          email: email,
+          first_name,
+          last_name,
+          email,
         },
       })
 
-      res.status(201).json({ token: transactionToken })
+      res.json({ token: transactionToken })
     } catch (error) {
       console.error(error)
       res.status(500).json({ message: "Error creating transaction" })

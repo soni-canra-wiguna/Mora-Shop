@@ -4,8 +4,7 @@ import { toast } from "@/hooks/use-toast"
 import { formatToIDR } from "@/utils/format-to-idr"
 import { useAuth, useUser } from "@clerk/nextjs"
 import axios from "axios"
-import { z } from "zod"
-import { TransactionSchema } from "@/pages/api/midtrans/topup"
+import { MidtransDataType } from "@/pages/api/midtrans/topup"
 
 interface GoldItemProps {
   label: string
@@ -14,8 +13,6 @@ interface GoldItemProps {
   price: number
   productId: string
 }
-
-type MidtransDataType = z.infer<typeof TransactionSchema>
 
 const GoldItem = ({
   image,
@@ -26,6 +23,8 @@ const GoldItem = ({
 }: GoldItemProps) => {
   const { isSignedIn, user } = useUser()
   const { userId } = useAuth()
+  const first_name = user?.firstName ?? ""
+  const last_name = user?.lastName ?? ""
 
   const goldData: MidtransDataType = {
     productId,
@@ -34,23 +33,28 @@ const GoldItem = ({
     price,
     quantity,
     userId: userId!,
+    first_name,
+    last_name,
   }
 
   async function handlePayment() {
-    if (isSignedIn) {
-      const { data } = await axios.post(
-        "/api/midtrans/topup",
-        JSON.stringify(goldData),
-      )
-
-      // @ts-ignore
-      window.snap.pay(data.token)
-    } else {
-      toast({
-        title: "Anda Belum Login",
-        description: "login terlebih dahulu untuk melakukan topup!",
-        variant: "destructive",
-      })
+    try {
+      if (isSignedIn) {
+        const { data } = await axios.post(
+          "/api/midtrans/topup",
+          JSON.stringify(goldData),
+        )
+        // @ts-ignore
+        window.snap.pay(data.token)
+      } else {
+        toast({
+          title: "Anda Belum Login",
+          description: "login terlebih dahulu untuk melakukan topup!",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
