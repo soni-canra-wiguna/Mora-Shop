@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -10,11 +11,34 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+    id        String     @id @default(uuid())
+    clerkId   String     @unique
+    gold      Int        @default(0)
+    purchases Purchase[]
 
-    @@index([name])
+    @@map("users")
+}
+
+model Product {
+    id          String     @id @default(uuid())
+    name        String
+    image       String
+    priceInGold Int
+    purchases   Purchase[]
+
+    @@map("products")
+}
+
+model Purchase {
+    id        String   @id @default(uuid())
+    userId    String
+    productId String
+    goldSpent Int
+    createdAt DateTime @default(now())
+
+    user    User    @relation(fields: [userId], references: [id])
+    product Product @relation(fields: [productId], references: [id])
+
+    @@map("purchases")
 }
