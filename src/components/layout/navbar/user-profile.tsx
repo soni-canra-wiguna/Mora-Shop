@@ -11,17 +11,21 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs"
 import Link from "next/link"
+import { useState } from "react"
 
 export const UserProfile = () => {
+  const [isOpen, setIsOpen] = useState(false)
   const { isLoaded, isSignedIn, user } = useUser()
 
   if (!isLoaded) return <Skeleton className="size-10 rounded-full" />
 
   const role = user?.publicMetadata?.role as string
 
+  const closeModal = () => setIsOpen(!isOpen)
+
   if (isSignedIn && user) {
     return (
-      <Popover>
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
           <Avatar>
             <AvatarFallback>
@@ -32,9 +36,13 @@ export const UserProfile = () => {
         </PopoverTrigger>
         <PopoverContent align="end">
           <div className="flex flex-col gap-2">
-            <ThemeSwitcher />
+            <ThemeSwitcher closeModalProfile={closeModal} />
             <SignOutButton>sign out</SignOutButton>
-            {role == "admin" && <Link href="/dashboard">dashboard</Link>}
+            {role == "admin" && (
+              <Link href="/dashboard" onClick={closeModal}>
+                dashboard
+              </Link>
+            )}
           </div>
         </PopoverContent>
       </Popover>
