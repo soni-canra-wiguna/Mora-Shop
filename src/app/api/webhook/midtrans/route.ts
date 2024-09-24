@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { db } from "@/server/db"
+import { db } from "@/lib/db"
 
 /*
   payload req.json()
@@ -14,7 +14,10 @@ export const POST = async (req: NextRequest) => {
   console.log("[TRANSACTION-STATUS] : ", transaction_status)
 
   try {
-    if (transaction_status === "settlement" || transaction_status === "capture") {
+    if (
+      transaction_status === "settlement" ||
+      transaction_status === "capture"
+    ) {
       const goldAmount = parseInt(quantity)
 
       await db.user.update({

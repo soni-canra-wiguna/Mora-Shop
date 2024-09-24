@@ -1,12 +1,12 @@
 import { WebhookEvent } from "@clerk/nextjs/server"
 import { NextRequest, NextResponse } from "next/server"
-import { db } from "@/server/db"
+import { db } from "@/lib/db"
 import { headers } from "next/headers"
 import { Webhook } from "svix"
 
 const webhookSecret = process.env.CLERK_WEBHOOK_SECRET || ``
 
-async function validateRequest(request: Request) {
+async function validateRequest(request: NextRequest) {
   const payloadString = await request.text()
   const headerPayload = headers()
 
@@ -19,7 +19,7 @@ async function validateRequest(request: Request) {
   return wh.verify(payloadString, svixHeaders) as WebhookEvent
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     // Parse the Clerk Webhook event
     const payload = await validateRequest(req)

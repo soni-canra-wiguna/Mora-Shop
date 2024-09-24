@@ -10,18 +10,33 @@ import {
 } from "@/components/ui/form"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { productSchema } from "@/server/api/routers/product"
 import { z } from "zod"
-import { api } from "@/trpc/react"
 import { toast } from "@/hooks/use-toast"
 import { FileUpload } from "@/components/file-upload"
 import { Input } from "@/components/ui/input"
 import LoadingButton from "@/components/loading-button"
+import axios from "axios"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
+
+export const productSchema = {
+  create: z.object({
+    name: z.string(),
+    image: z.string(),
+    priceInGold: z.coerce.number(),
+  }),
+
+  update: z.object({
+    id: z.string(),
+    name: z.string(),
+    image: z.string(),
+    priceInGold: z.coerce.number(),
+  }),
+}
 
 type InferCreateProduct = z.infer<typeof productSchema.create>
 
 export const CreateProductForm = () => {
-  const ctx = api.useUtils()
   const defaultValues = {
     image: "",
     name: "",
@@ -37,11 +52,34 @@ export const CreateProductForm = () => {
     isPending,
     mutate: createProduct,
     isError,
-  } = api.product.createProduct.useMutation({
+  } = useMutation({
+    mutationFn: async (data: InferCreateProduct) => {
+      await axios.post("/api/products", data)
+    },
     onSuccess: () => {
-      form.reset(defaultValues)
-      toast({ title: "berhasil membuat produk" })
-      ctx.product.getProducts.invalidate()
+      // form.reset({
+      //   userId: userId!,
+      //   title: "",
+      //   description: "",
+      //   image: "",
+      //   price: 0,
+      //   category: "",
+      //   stock: 0,
+      //   unit: "PCS",
+      // })
+      // toast({
+      //   title: "Produk di buat",
+      //   description: "Produk berhasil di buat",
+      // })
+      // router.push("/dashboard")
+      // queryClient.invalidateQueries({ queryKey: ["lists_products"] })
+    },
+    onError: () => {
+      toast({
+        title: "Gagal menambahkan produk",
+        description: "Gagal menambahkan produk, pastikan koneksimu lancar",
+        variant: "destructive",
+      })
     },
   })
 

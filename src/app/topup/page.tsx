@@ -2,7 +2,6 @@
 
 import { Container } from "@/components/layout/container"
 import { ListTopup } from "@/components/list-topup"
-import { env } from "@/env"
 import { useEffect } from "react"
 
 export default function TopupPage() {
@@ -11,7 +10,10 @@ export default function TopupPage() {
     const snapUrl = "https://app.sandbox.midtrans.com/snap/snap.js"
     const script = document.createElement("script")
     script.src = snapUrl
-    script.setAttribute("data-client-key", env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY)
+    script.setAttribute(
+      "data-client-key",
+      process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY!,
+    )
     // script.async = true
 
     document.body.appendChild(script)
