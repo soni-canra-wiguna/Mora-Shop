@@ -10,7 +10,7 @@ export const GET = async (
 
     const user = await db.user.findUnique({
       where: {
-        id,
+        clerkId: id,
       },
     })
 
