@@ -3,13 +3,13 @@ import "@/styles/globals.css"
 import { GeistSans } from "geist/font/sans"
 import { type Metadata } from "next"
 
-import { WithClerkProvider } from "@/components/clerk-provider"
+import { WithClerkProvider } from "@/components/provider/clerk-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/footer"
 import NextTopLoader from "nextjs-toploader"
-import { ThemeProvider } from "@/components/theme-provider"
-import { TanstackProvider } from "@/components/tanstask-provider"
+import { ThemeProvider } from "@/components/provider/theme-provider"
+import { TanstackProvider } from "@/components/provider/tanstask-provider"
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -27,7 +27,7 @@ export default function RootLayout({
           <body className={`${GeistSans.variable}`}>
             <ThemeProvider>
               <NextTopLoader color="#fc7303" height={3} showSpinner={false} />
-              {/* <Navbar /> */}
+              <Navbar />
               {children}
               <Footer />
               <Toaster />

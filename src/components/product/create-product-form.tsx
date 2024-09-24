@@ -37,6 +37,9 @@ export const productSchema = {
 type InferCreateProduct = z.infer<typeof productSchema.create>
 
 export const CreateProductForm = () => {
+  const router = useRouter()
+  const queryClient = useQueryClient()
+
   const defaultValues = {
     image: "",
     name: "",
@@ -57,22 +60,13 @@ export const CreateProductForm = () => {
       await axios.post("/api/products", data)
     },
     onSuccess: () => {
-      // form.reset({
-      //   userId: userId!,
-      //   title: "",
-      //   description: "",
-      //   image: "",
-      //   price: 0,
-      //   category: "",
-      //   stock: 0,
-      //   unit: "PCS",
-      // })
-      // toast({
-      //   title: "Produk di buat",
-      //   description: "Produk berhasil di buat",
-      // })
-      // router.push("/dashboard")
-      // queryClient.invalidateQueries({ queryKey: ["lists_products"] })
+      form.reset(defaultValues)
+      toast({
+        title: "Produk di buat",
+        description: "Produk berhasil di buat",
+      })
+      router.push("/")
+      queryClient.invalidateQueries({ queryKey: ["products"] })
     },
     onError: () => {
       toast({

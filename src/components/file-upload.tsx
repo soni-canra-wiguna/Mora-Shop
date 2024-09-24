@@ -2,6 +2,7 @@
 
 import { toast } from "@/hooks/use-toast"
 import { UploadButton, UploadDropzone } from "@/lib/uploadthing"
+import { Card } from "./ui/card"
 
 interface FileUploadProps {
   onChange: (url?: string) => void
@@ -12,7 +13,7 @@ interface FileUploadProps {
 export const FileUpload = ({ endpoint, onChange, value }: FileUploadProps) => {
   if (value) {
     return (
-      <div className="border-input relative h-[189px] w-full overflow-hidden rounded-xl border">
+      <Card className="relative h-[189px] w-full overflow-hidden bg-white dark:bg-darkBg">
         <img
           src={value}
           alt="preview image"
@@ -20,7 +21,7 @@ export const FileUpload = ({ endpoint, onChange, value }: FileUploadProps) => {
         />
         <UploadButton
           endpoint={endpoint}
-          className="ut-button:bg-primary ut-button:text-background ut-button:shadow-md ut-button:focus-within:ring-primary ut-allowed-content:hidden ut-allowed-content:text-background"
+          className="ut-button:text-background ut-button:focus-within:ring-primary ut-allowed-content:text-background ut-button:bg-main ut-button:shadow-md ut-allowed-content:hidden"
           appearance={{
             container: "absolute bottom-2 right-2",
           }}
@@ -42,13 +43,13 @@ export const FileUpload = ({ endpoint, onChange, value }: FileUploadProps) => {
             })
           }}
         />
-      </div>
+      </Card>
     )
   }
 
   return (
     <UploadDropzone
-      className="ut-allowed-content:text-paragraph !border-foreground/50 ut-button:bg-primary ut-button:text-background ut-label:font-medium ut-label:text-primary ut-upload-icon:text-primary/30 !rounded-xl"
+      className="ut-allowed-content:text-paragraph ut-button:text-background !dark:bg-darkBg !rounded-base !border-2 !border-solid !border-border !bg-white !text-black !shadow-light ut-button:bg-main ut-label:font-medium ut-label:text-main ut-upload-icon:text-main/50 dark:!border-darkBorder dark:!shadow-dark"
       endpoint={endpoint}
       onClientUploadComplete={(res) => {
         if (!res) return
