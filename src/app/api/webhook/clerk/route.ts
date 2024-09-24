@@ -34,21 +34,6 @@ export async function POST(req: Request) {
     // Create or delete a user in the database based on the Clerk Webhook event
     let user = null
     switch (payload.type) {
-      case "session.created": {
-        user = await db.user.upsert({
-          where: {
-            clerkId: clerkUserId,
-          },
-          update: {
-            clerkId: clerkUserId,
-          },
-          create: {
-            clerkId: clerkUserId,
-            gold: 0,
-          },
-        })
-        break
-      }
       case "user.created": {
         user = await db.user.upsert({
           where: {
