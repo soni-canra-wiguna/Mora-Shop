@@ -15,6 +15,7 @@ export const getUser = ({ userId, refetchInterval = 60000 }: GetUserProps) => {
       return data.data
     },
     refetchInterval,
+    enabled: !!userId, // Disable the query if userId is undefined
   })
 
   return {

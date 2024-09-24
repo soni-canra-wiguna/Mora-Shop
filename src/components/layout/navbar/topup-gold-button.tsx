@@ -23,7 +23,7 @@ export const TopupGoldButton = () => {
           {!isSignedIn ? (
             <span className="pr-4">0</span>
           ) : (
-            <span className="pr-4">{isPending ? "..." : data?.gold}</span>
+            <span className="pr-4">{isPending ? 0 : data?.gold}</span>
           )}
         </div>
         <Separator orientation="vertical" />
