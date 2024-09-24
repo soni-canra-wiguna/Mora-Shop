@@ -1,6 +1,6 @@
 {
-  "name": "t3-pages-router",
-  "version": "0.1.0",
+  "name": "mora-shop",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,7 +12,8 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "bs": "next build && next start"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.6.0",
