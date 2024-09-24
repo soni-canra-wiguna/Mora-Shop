@@ -8,9 +8,11 @@ const userSchema = z.object({
 })
 
 export const userRouter = createTRPCRouter({
-  create: publicProcedure.input(userSchema).mutation(async ({ ctx, input }) => {
-    return await ctx.db.user.create({
-      data: input,
+  getUser: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    return await ctx.db.user.findUnique({
+      where: {
+        clerkId: input,
+      },
     })
   }),
 })
