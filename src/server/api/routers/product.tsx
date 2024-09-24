@@ -41,11 +41,11 @@ export const productRouter = createTRPCRouter({
 
   updateProduct: publicProcedure
     .input(userSchema.update)
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const { id, ...updateWithoutId } = input
       return ctx.db.product.update({
         where: {
-          id: input.id,
+          id,
         },
         data: updateWithoutId,
       })
@@ -53,7 +53,7 @@ export const productRouter = createTRPCRouter({
 
   deleteProduct: publicProcedure
     .input(z.string())
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.product.delete({
         where: {
           id: input,
