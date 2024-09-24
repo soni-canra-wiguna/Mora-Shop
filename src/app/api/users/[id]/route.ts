@@ -8,7 +8,7 @@ export const GET = async (
   try {
     const { id } = params
 
-    const user = await db.product.findUnique({
+    const user = await db.user.findUnique({
       where: {
         id,
       },
