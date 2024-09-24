@@ -11,7 +11,7 @@ export const TopupGoldButton = () => {
   const { userId } = useAuth()
   const { isSignedIn } = useUser()
   const { data, isPending } = api.user.getUser.useQuery(userId!, {
-    refetchInterval: 5000,
+    refetchInterval: 60000,
   })
 
   return (

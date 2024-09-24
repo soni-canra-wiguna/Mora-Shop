@@ -1,26 +1,26 @@
 import { z } from "zod"
 import { createTRPCRouter, publicProcedure } from "../trpc"
 
-const userSchema = {
+export const productSchema = {
   create: z.object({
     name: z.string(),
     image: z.string(),
-    priceInGold: z.number(),
+    priceInGold: z.coerce.number(),
   }),
 
   update: z.object({
     id: z.string(),
     name: z.string(),
     image: z.string(),
-    priceInGold: z.number(),
+    priceInGold: z.coerce.number(),
   }),
 }
 
 export const productRouter = createTRPCRouter({
   createProduct: publicProcedure
-    .input(userSchema.create)
+    .input(productSchema.create)
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.product.create({
+      return await ctx.db.product.create({
         data: input,
       })
     }),
@@ -40,7 +40,7 @@ export const productRouter = createTRPCRouter({
     }),
 
   updateProduct: publicProcedure
-    .input(userSchema.update)
+    .input(productSchema.update)
     .mutation(async ({ ctx, input }) => {
       const { id, ...updateWithoutId } = input
       return ctx.db.product.update({

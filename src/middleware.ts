@@ -14,7 +14,9 @@ export default clerkMiddleware(async (auth, req) => {
       return NextResponse.redirect(homepageUrl)
     }
     auth().protect()
-  } else if (isAdminRoute(req)) {
+  }
+
+  if (isAdminRoute(req)) {
     if (sessionClaims?.metadata?.role !== "admin") {
       return NextResponse.redirect(new URL("/", req.url))
     }

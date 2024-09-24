@@ -22,19 +22,19 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <WithClerkProvider>
-      <TRPCReactProvider>
-        <html lang="en" suppressHydrationWarning>
-          <body className={`${GeistSans.variable}`}>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${GeistSans.variable}`}>
+          <TRPCReactProvider>
             <ThemeProvider>
-              <NextTopLoader color="#84ff00" height={3} showSpinner={false} />
-              <Navbar />
+              <NextTopLoader color="#fc7303" height={3} showSpinner={false} />
+              {/* <Navbar /> */}
               {children}
               <Footer />
               <Toaster />
             </ThemeProvider>
-          </body>
-        </html>
-      </TRPCReactProvider>
+          </TRPCReactProvider>
+        </body>
+      </html>
     </WithClerkProvider>
   )
 }

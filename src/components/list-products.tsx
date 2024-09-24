@@ -1,13 +1,17 @@
+"use client"
+
+import { api } from "@/trpc/react"
 import { Button } from "./ui/button"
 import { Card } from "./ui/card"
 
 interface ItemProductProps {
+  id?: string
   name: string
   image: string
   priceInGold: number
 }
 
-const ItemProduct = ({ name, image, priceInGold }: ItemProductProps) => {
+export const ItemProduct = ({ name, image, priceInGold }: ItemProductProps) => {
   return (
     <Card className="flex flex-col gap-4 p-4">
       <div className="aspect-square w-full overflow-hidden rounded-md border-2 border-border">
@@ -22,44 +26,17 @@ const ItemProduct = ({ name, image, priceInGold }: ItemProductProps) => {
 }
 
 export const ListProducts = () => {
-  const listProducts = [
-    {
-      name: "something 1",
-      image: "/alya.png",
-      priceInGold: 10,
-    },
-    {
-      name: "something 2",
-      image: "/alya.png",
-      priceInGold: 50,
-    },
-    {
-      name: "something 3",
-      image: "/alya.png",
-      priceInGold: 30,
-    },
-    {
-      name: "something 4",
-      image: "/alya.png",
-      priceInGold: 100,
-    },
-    {
-      name: "something 5",
-      image: "/alya.png",
-      priceInGold: 50,
-    },
-    {
-      name: "something 6",
-      image: "/alya.png",
-      priceInGold: 20,
-    },
-  ]
+  const { data, isPending, isError } = api.product.getProducts.useQuery()
 
   return (
     <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {listProducts.map((product) => {
-        return <ItemProduct {...product} key={product.name} />
-      })}
+      {isPending ? (
+        <div>loading...</div>
+      ) : (
+        data?.map((product) => {
+          return <ItemProduct {...product} key={product.id} />
+        })
+      )}
     </div>
   )
 }
