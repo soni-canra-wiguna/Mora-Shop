@@ -13,14 +13,16 @@ export const POST = async (req: NextRequest) => {
   try {
     const request: z.infer<typeof updateGoldAndCreatePurchaseSchema> =
       await req.json()
-    const response = Validation.validate(
+    const { userId, productId, goldSpent } = Validation.validate(
       updateGoldAndCreatePurchaseSchema,
       request,
     )
 
-    const user = await db.user.findUnique({ where: { id: response.userId } })
+    const user = await db.user.findUnique({
+      where: { userId: userId },
+    })
     const product = await db.product.findUnique({
-      where: { id: response.productId },
+      where: { id: productId },
     })
 
     if (!user || !product) {
@@ -30,18 +32,22 @@ export const POST = async (req: NextRequest) => {
     // update gold user when user buy product
     await db.user.update({
       where: {
-        userId: response.userId,
+        userId,
       },
       data: {
         gold: {
-          decrement: response.goldSpent,
+          decrement: goldSpent,
         },
       },
     })
 
     // add entry on purchase
     await db.purchase.create({
-      data: response,
+      data: {
+        userId,
+        productId,
+        goldSpent,
+      },
     })
 
     return NextResponse.json(
