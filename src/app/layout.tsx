@@ -1,6 +1,6 @@
 import "@/styles/globals.css"
 
-import { GeistSans } from "geist/font/sans"
+import { Space_Grotesk } from "next/font/google"
 import { type Metadata } from "next"
 
 import { WithClerkProvider } from "@/components/provider/clerk-provider"
@@ -17,6 +17,13 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 }
 
+const spaceGrostek = Space_Grotesk({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-space-grostek",
+})
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -24,7 +31,7 @@ export default function RootLayout({
     <WithClerkProvider>
       <TanstackProvider>
         <html lang="en" suppressHydrationWarning>
-          <body className={`${GeistSans.variable}`}>
+          <body className={`${spaceGrostek.className}`}>
             <ThemeProvider>
               <NextTopLoader color="#fc7303" height={3} showSpinner={false} />
               <Navbar />

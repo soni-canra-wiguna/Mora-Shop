@@ -27,8 +27,8 @@ export const ItemProduct = ({
 
   const data = {
     goldSpent: priceInGold,
-    userId: userId,
-    productId: id,
+    userId: userId ?? "",
+    productId: id ?? "",
   }
 
   const { mutate, isPending, isError } = useMutation({
