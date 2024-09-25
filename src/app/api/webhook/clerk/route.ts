@@ -37,13 +37,13 @@ export async function POST(req: NextRequest) {
       case "user.created": {
         user = await db.user.upsert({
           where: {
-            clerkId: clerkUserId,
+            userId: clerkUserId,
           },
           update: {
-            clerkId: clerkUserId,
+            userId: clerkUserId,
           },
           create: {
-            clerkId: clerkUserId,
+            userId: clerkUserId,
             gold: 0,
           },
         })
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
       case "user.deleted": {
         user = await db.user.delete({
           where: {
-            clerkId: clerkUserId,
+            userId: clerkUserId,
           },
         })
         break

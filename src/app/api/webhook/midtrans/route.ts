@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
 
       await db.user.update({
         where: {
-          clerkId: userId,
+          userId: userId,
         },
         data: {
           gold: {

@@ -12,7 +12,7 @@ export const GET = async (
 
     const user = await db.user.findUnique({
       where: {
-        clerkId: id,
+        userId: id,
       },
     })
 
@@ -44,7 +44,7 @@ export const PATCH = async (
 
     await db.user.update({
       where: {
-        clerkId: id,
+        userId: id,
       },
       data: {
         gold: {
