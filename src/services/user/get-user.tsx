@@ -1,4 +1,4 @@
-import { User } from "@prisma/client"
+import { Purchase, User } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 
@@ -7,8 +7,12 @@ export interface GetUserProps {
   refetchInterval?: number
 }
 
+interface UserResponseProps extends User {
+  purchase: Purchase[]
+}
+
 export const getUser = ({ userId, refetchInterval = 60000 }: GetUserProps) => {
-  const { data, isPending, isError } = useQuery<User>({
+  const { data, isPending, isError } = useQuery<UserResponseProps>({
     queryKey: ["user"],
     queryFn: async () => {
       const { data } = await axios.get(`/api/users/${userId}`)

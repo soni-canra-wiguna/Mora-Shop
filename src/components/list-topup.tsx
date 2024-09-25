@@ -53,7 +53,7 @@ const GoldItem = ({
     last_name,
   }
 
-  async function handlePayment() {
+  async function handleCheckout() {
     try {
       if (isSignedIn) {
         const { data } = await axios.post(
@@ -61,7 +61,16 @@ const GoldItem = ({
           JSON.stringify(goldData),
         )
         // @ts-ignore
-        window.snap.pay(data.token)
+        window.snap.pay(data.token, {
+          onClose: () => {
+            toast({
+              title: "Pembayaran Belum Selesai",
+              description:
+                "Anda menutup proses pembayaran. Harap selesaikan pembayaran untuk melanjutkan.",
+              variant: "destructive",
+            })
+          },
+        })
       } else {
         toast({
           title: "Anda Belum Login",
@@ -80,7 +89,7 @@ const GoldItem = ({
       <span className="text-lg font-semibold capitalize dark:text-darkText">
         {quantity} gold
       </span>
-      <Button variant="neutral" onClick={handlePayment}>
+      <Button variant="neutral" onClick={handleCheckout}>
         {formatToIDR(price)}
       </Button>
     </Card>

@@ -16,15 +16,24 @@ interface ItemProductProps {
   priceInGold: number
 }
 
-const buyProduct = () => {}
-
-export const ItemProduct = ({ name, image, priceInGold }: ItemProductProps) => {
+export const ItemProduct = ({
+  name,
+  image,
+  priceInGold,
+  id,
+}: ItemProductProps) => {
   const { userId } = useAuth()
   const queryClient = useQueryClient()
 
+  const data = {
+    goldSpent: priceInGold,
+    userId: userId,
+    productId: id,
+  }
+
   const { mutate, isPending, isError } = useMutation({
     mutationFn: async () => {
-      await axios.patch(`/api/users/${userId ?? ""}`, { quantity: priceInGold })
+      await axios.post(`/api/purchase`, data)
     },
     onSuccess: () => {
       toast({
@@ -54,7 +63,7 @@ export const ItemProduct = ({ name, image, priceInGold }: ItemProductProps) => {
         onClick={() => mutate()}
       >
         {isPending ? (
-          <Loader2 className="size-4 animate-spin" />
+          <Loader2 className="mr-2 size-4 animate-spin" />
         ) : (
           <img src="/coin.png" alt="coin" className="mr-2 size-5" />
         )}
