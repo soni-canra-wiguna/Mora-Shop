@@ -1,12 +1,12 @@
 import { WebhookEvent } from "@clerk/nextjs/server"
 import { NextRequest, NextResponse } from "next/server"
-import { db } from "@/server/db"
+import { db } from "@/lib/db"
 import { headers } from "next/headers"
 import { Webhook } from "svix"
 
 const webhookSecret = process.env.CLERK_WEBHOOK_SECRET || ``
 
-async function validateRequest(request: Request) {
+async function validateRequest(request: NextRequest) {
   const payloadString = await request.text()
   const headerPayload = headers()
 
@@ -19,7 +19,7 @@ async function validateRequest(request: Request) {
   return wh.verify(payloadString, svixHeaders) as WebhookEvent
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     // Parse the Clerk Webhook event
     const payload = await validateRequest(req)
@@ -34,21 +34,6 @@ export async function POST(req: Request) {
     // Create or delete a user in the database based on the Clerk Webhook event
     let user = null
     switch (payload.type) {
-      case "session.created": {
-        user = await db.user.upsert({
-          where: {
-            clerkId: clerkUserId,
-          },
-          update: {
-            clerkId: clerkUserId,
-          },
-          create: {
-            clerkId: clerkUserId,
-            gold: 0,
-          },
-        })
-        break
-      }
       case "user.created": {
         user = await db.user.upsert({
           where: {

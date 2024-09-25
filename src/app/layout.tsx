@@ -3,13 +3,13 @@ import "@/styles/globals.css"
 import { GeistSans } from "geist/font/sans"
 import { type Metadata } from "next"
 
-import { TRPCReactProvider } from "@/trpc/react"
-import { WithClerkProvider } from "@/components/clerk-provider"
+import { WithClerkProvider } from "@/components/provider/clerk-provider"
 import { Toaster } from "@/components/ui/toaster"
-import { Navbar } from "@/components/navbar"
+import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/footer"
 import NextTopLoader from "nextjs-toploader"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/provider/theme-provider"
+import { TanstackProvider } from "@/components/provider/tanstask-provider"
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -22,17 +22,19 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <WithClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`${GeistSans.variable}`}>
-          <ThemeProvider>
-            <NextTopLoader color="#84ff00" height={3} showSpinner={false} />
-            <Navbar />
-            <TRPCReactProvider>{children}</TRPCReactProvider>
-            <Footer />
-            <Toaster />
-          </ThemeProvider>
-        </body>
-      </html>
+      <TanstackProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body className={`${GeistSans.variable}`}>
+            <ThemeProvider>
+              <NextTopLoader color="#fc7303" height={3} showSpinner={false} />
+              <Navbar />
+              {children}
+              <Footer />
+              <Toaster />
+            </ThemeProvider>
+          </body>
+        </html>
+      </TanstackProvider>
     </WithClerkProvider>
   )
 }
