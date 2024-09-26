@@ -1,29 +1,39 @@
-# Create T3 App
+## Summary about this APP
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+I created this application to learn how to integrate a Payment Gateway (Midtrans) with React/Next.Js. The concept of the application revolves around game or subscription top-ups.
 
-## What's next? How do I make an app with this?
+Users can top up gold using real money, processed through Midtrans. The gold is then used to purchase items or images on this website. The conversion rate is 1 🪙 = 1000 IDR.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Setup Environment
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+```sh
+DATABASE_URL=""
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=""
+CLERK_SECRET_KEY=""
+CLERK_WEBHOOK_SECRET=""
 
-## Learn More
+MIDTRANS_SERVER_KEY=""
+NEXT_PUBLIC_MIDTRANS_CLIENT_KEY=""
+NEXT_PUBLIC_MIDTRANS_SANDBOX="https://app.sandbox.midtrans.com/snap/v1/transactions"
+NEXT_PUBLIC_MIDTRANS_PRODUCTION="https://app.midtrans.com/snap/v1/transactions"
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+UPLOADTHING_TOKEN=''
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+NEXT_PUBLIC_LOCAL_URL="http://localhost:3000"
+PRODUCTION_URL=""
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```
 
-## How do I deploy this?
+## Running Locally
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```sh
+1. npx prisma generate && npx prisma db push
+2. npm install
+3. npm run dev
+4. npm run build
+```
+
+## Deploy
+
+[vercel](https://vercel.com)
