@@ -13,7 +13,11 @@ export const GET = async (
         userId: id,
       },
       include: {
-        purchases: true,
+        purchases: {
+          include: {
+            product: true,
+          },
+        },
       },
     })
 
