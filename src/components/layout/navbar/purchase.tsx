@@ -19,7 +19,7 @@ export const PurchaseNotification = () => {
   return (
     <Popover>
       <PopoverTrigger>
-        <Bell className="size-6" />
+        <Bell className="size-6 stroke-[1.5]" />
       </PopoverTrigger>
       <PopoverContent align="end">
         <div className="">
