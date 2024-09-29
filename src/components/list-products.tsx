@@ -41,6 +41,7 @@ export const ItemProduct = ({
         description: "Produk berhasil di beli",
       })
       queryClient.invalidateQueries({ queryKey: ["user"] })
+      queryClient.invalidateQueries({ queryKey: ["purchases"] })
     },
     onError: () => {
       toast({

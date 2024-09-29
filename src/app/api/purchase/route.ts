@@ -86,6 +86,12 @@ export const GET = async (req: NextRequest) => {
       where: {
         userId,
       },
+      include: {
+        product: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
     })
 
     return NextResponse.json(

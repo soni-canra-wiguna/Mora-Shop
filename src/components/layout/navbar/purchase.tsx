@@ -5,15 +5,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { getUser } from "@/services/user/get-user"
 import { useAuth } from "@clerk/nextjs"
 import { Bell, Loader2 } from "lucide-react"
 import { id } from "date-fns/locale"
 import { format } from "date-fns"
+import { getPurchases } from "@/services/purchase/get-purchase"
 
 export const PurchaseNotification = () => {
   const { userId } = useAuth()
-  const { data, isPending, isError } = getUser({
+  const { data, isPending, isError } = getPurchases({
     userId: userId!,
   })
   return (
@@ -31,12 +31,16 @@ export const PurchaseNotification = () => {
           </div>
         ) : (
           <div className="flex max-h-[500px] flex-col overflow-y-auto">
-            {data?.purchases?.map((purchase) => (
-              <div className="flex flex-col gap-2 border-b-2 px-2 py-4">
+            {data?.map((purchase) => (
+              <div
+                key={purchase.id}
+                className="flex flex-col gap-2 border-b-2 px-2 py-4"
+              >
                 <span className="font-semibold">{purchase.product.name}</span>
                 <span className="text-sm">harga : {purchase.goldSpent} 🪙</span>
                 <span className="text-sm">
-                  tanggal : {format(purchase.createdAt, "dd LLL yyyy")}
+                  tanggal :{" "}
+                  {format(purchase.createdAt, "dd LLL yyyy", { locale: id })}
                 </span>
               </div>
             ))}
