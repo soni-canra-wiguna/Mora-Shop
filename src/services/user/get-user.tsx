@@ -12,7 +12,7 @@ interface PurchaseProduct extends Purchase {
 }
 
 export interface UserResponseProps extends User {
-  purchase: PurchaseProduct[]
+  purchases: PurchaseProduct[]
 }
 
 export const getUser = ({ userId, refetchInterval = 60000 }: GetUserProps) => {
