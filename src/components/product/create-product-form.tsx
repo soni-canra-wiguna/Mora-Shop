@@ -34,7 +34,7 @@ export const productSchema = {
   }),
 }
 
-type InferCreateProduct = z.infer<typeof productSchema.create>
+export type InferCreateProduct = z.infer<typeof productSchema.create>
 
 export const CreateProductForm = () => {
   const router = useRouter()
