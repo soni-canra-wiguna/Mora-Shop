@@ -4,7 +4,6 @@ import { db } from "@/lib/db"
 import { Validation } from "@/schema/validation"
 import { CreateProductRequest, productSchema } from "@/schema/product"
 import { getSearchParams } from "@/utils/get-search-params"
-import { PurchaseStatus } from "@prisma/client"
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
@@ -45,30 +44,30 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
 export const GET = async (req: NextRequest, res: NextResponse) => {
   try {
-    const type = getSearchParams("type", req) ?? ""
-    const userId = getSearchParams("userId", req) ?? ""
+    // const userId = getSearchParams("userId", req) ?? ""
 
     const response = await db.product.findMany()
-    const paidResponse = await db.product.findMany({
-      include: {
-        purchases: {
-          where: {
-            userId,
-            status: type as PurchaseStatus,
-          },
-        },
-      },
-    })
+    // const unpaidResponse = await db.product.findMany({
+    //   // produk yang belum di beli user
+    //   where: {
+    //     purchases: {
+    //       none: {
+    //         userId,
+    //         status: "PAID",
+    //       },
+    //     },
+    //   },
+    // })
 
-    if (type && userId) {
-      return NextResponse.json(
-        {
-          message: "product successfully retrieved",
-          data: paidResponse,
-        },
-        { status: 200 },
-      )
-    }
+    // if (userId) {
+    //   return NextResponse.json(
+    //     {
+    //       message: "product successfully retrieved",
+    //       data: unpaidResponse,
+    //     },
+    //     { status: 200 },
+    //   )
+    // }
 
     return NextResponse.json(
       {

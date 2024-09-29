@@ -28,11 +28,10 @@ export const getPurchaseProducts = () => {
   const { data, isPending, isError } = useQuery<ProductsResponseProps[]>({
     queryKey: ["purchaseProducts"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `/api/products?type=PAID&userId=${userId}`,
-      )
+      const { data } = await axios.get(`/api/products?userId=${userId}`)
       return data.data
     },
+    enabled: !!userId,
   })
 
   return {
