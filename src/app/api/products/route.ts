@@ -4,6 +4,7 @@ import { db } from "@/lib/db"
 import { Validation } from "@/schema/validation"
 import { CreateProductRequest, productSchema } from "@/schema/product"
 import { getSearchParams } from "@/utils/get-search-params"
+import { PurchaseStatus } from "@prisma/client"
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
@@ -53,7 +54,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         purchases: {
           where: {
             userId,
-            status: "PAID",
+            status: type as PurchaseStatus,
           },
         },
       },

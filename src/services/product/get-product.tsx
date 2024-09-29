@@ -1,3 +1,4 @@
+import { useAuth } from "@clerk/nextjs"
 import { Product, Purchase } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
@@ -11,6 +12,25 @@ export const GetProducts = () => {
     queryKey: ["products"],
     queryFn: async () => {
       const { data } = await axios.get("/api/products")
+      return data.data
+    },
+  })
+
+  return {
+    data,
+    isPending,
+    isError,
+  }
+}
+
+export const getPurchaseProducts = () => {
+  const { userId } = useAuth()
+  const { data, isPending, isError } = useQuery<ProductsResponseProps[]>({
+    queryKey: ["purchaseProducts"],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `/api/products?type=PAID&userId=${userId}`,
+      )
       return data.data
     },
   })
