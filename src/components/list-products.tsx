@@ -8,8 +8,9 @@ import axios from "axios"
 import { useAuth } from "@clerk/nextjs"
 import { toast } from "@/hooks/use-toast"
 import { Loader2 } from "lucide-react"
+import { getUser } from "@/services/user/get-user"
 
-interface ItemProductProps {
+export interface ItemProductProps {
   id?: string
   name: string
   image: string
@@ -24,6 +25,9 @@ export const ItemProduct = ({
 }: ItemProductProps) => {
   const { userId } = useAuth()
   const queryClient = useQueryClient()
+
+  const { data: user } = getUser({ userId: userId! })
+  const userGold = user?.gold ?? 0
 
   const data = {
     goldSpent: priceInGold,
@@ -41,6 +45,7 @@ export const ItemProduct = ({
         description: "Produk berhasil di beli",
       })
       queryClient.invalidateQueries({ queryKey: ["user"] })
+      queryClient.invalidateQueries({ queryKey: ["purchases"] })
     },
     onError: () => {
       toast({
@@ -51,6 +56,18 @@ export const ItemProduct = ({
     },
   })
 
+  const handleCheckout = () => {
+    if (userGold < priceInGold) {
+      toast({
+        title: "Gold kamu tidak cukup!!",
+        description: "Topup terlebih dahulu untuk mendapatkan gold",
+        variant: "destructive",
+      })
+    } else {
+      mutate()
+    }
+  }
+
   return (
     <Card className="flex flex-col gap-4 p-4">
       <div className="aspect-square w-full overflow-hidden rounded-md border-2 border-border">
@@ -60,7 +77,7 @@ export const ItemProduct = ({
         disabled={isPending}
         size="lg"
         variant="neutral"
-        onClick={() => mutate()}
+        onClick={handleCheckout}
       >
         {isPending ? (
           <Loader2 className="mr-2 size-4 animate-spin" />

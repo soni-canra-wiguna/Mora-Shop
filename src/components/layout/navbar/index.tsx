@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Container } from "../container"
 import { TopupGoldButton } from "./topup-gold-button"
 import { UserProfile } from "./user-profile"
+import { PurchaseNotification } from "./purchase"
 
 export const Navbar = () => {
   return (
@@ -15,7 +16,7 @@ export const Navbar = () => {
           </Link>
           <TopupGoldButton />
           <div className="flex items-center gap-8">
-            {/* <ThemeSwitcher /> */}
+            <PurchaseNotification />
             <UserProfile />
           </div>
         </div>

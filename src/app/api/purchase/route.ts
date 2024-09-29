@@ -1,5 +1,6 @@
 import { db } from "@/lib/db"
 import { Validation } from "@/schema/validation"
+import { getSearchParams } from "@/utils/get-search-params"
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 
@@ -47,6 +48,7 @@ export const POST = async (req: NextRequest) => {
         userId,
         productId,
         goldSpent,
+        status: "PAID",
       },
     })
 
@@ -65,6 +67,42 @@ export const POST = async (req: NextRequest) => {
         { status: 400 },
       )
     }
+    return NextResponse.json(
+      {
+        message: "internal server error",
+      },
+      {
+        status: 500,
+      },
+    )
+  }
+}
+
+export const GET = async (req: NextRequest) => {
+  try {
+    const userId = getSearchParams("userId", req) ?? ""
+
+    const response = await db.purchase.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        product: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    })
+
+    return NextResponse.json(
+      {
+        message: "data retrieved successfully",
+        data: response,
+      },
+      { status: 200 },
+    )
+  } catch (error) {
+    console.log(error)
     return NextResponse.json(
       {
         message: "internal server error",

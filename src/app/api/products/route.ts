@@ -3,6 +3,7 @@ import { z } from "zod"
 import { db } from "@/lib/db"
 import { Validation } from "@/schema/validation"
 import { CreateProductRequest, productSchema } from "@/schema/product"
+import { getSearchParams } from "@/utils/get-search-params"
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
@@ -43,14 +44,37 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
 export const GET = async (req: NextRequest, res: NextResponse) => {
   try {
+    // const userId = getSearchParams("userId", req) ?? ""
+
     const response = await db.product.findMany()
+    // const unpaidResponse = await db.product.findMany({
+    //   // produk yang belum di beli user
+    //   where: {
+    //     purchases: {
+    //       none: {
+    //         userId,
+    //         status: "PAID",
+    //       },
+    //     },
+    //   },
+    // })
+
+    // if (userId) {
+    //   return NextResponse.json(
+    //     {
+    //       message: "product successfully retrieved",
+    //       data: unpaidResponse,
+    //     },
+    //     { status: 200 },
+    //   )
+    // }
 
     return NextResponse.json(
       {
         message: "product successfully retrieved",
         data: response,
       },
-      { status: 201 },
+      { status: 200 },
     )
   } catch (error) {
     return NextResponse.json(

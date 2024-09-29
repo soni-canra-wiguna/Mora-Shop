@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server"
 
-export const getSearchParams = (request: NextRequest, params: string) => {
+export const getSearchParams = (params: string, request: NextRequest) => {
   if (params === "search") {
     return request.nextUrl.searchParams.get(params)?.replace(/-/g, " ")
   }
