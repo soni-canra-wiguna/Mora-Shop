@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input"
 import LoadingButton from "@/components/loading-button"
 import axios from "axios"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
 
 export const productSchema = {
   create: z.object({
@@ -37,7 +36,6 @@ export const productSchema = {
 export type InferCreateProduct = z.infer<typeof productSchema.create>
 
 export const CreateProductForm = () => {
-  const router = useRouter()
   const queryClient = useQueryClient()
 
   const defaultValues = {
@@ -65,7 +63,6 @@ export const CreateProductForm = () => {
         title: "Produk di buat",
         description: "Produk berhasil di buat",
       })
-      router.push("/")
       queryClient.invalidateQueries({ queryKey: ["products"] })
     },
     onError: () => {
