@@ -9,7 +9,7 @@ import { useAuth } from "@clerk/nextjs"
 import { toast } from "@/hooks/use-toast"
 import { Loader2 } from "lucide-react"
 
-interface ItemProductProps {
+export interface ItemProductProps {
   id?: string
   name: string
   image: string

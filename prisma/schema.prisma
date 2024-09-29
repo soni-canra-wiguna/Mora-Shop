@@ -44,7 +44,7 @@ model Purchase {
     createdAt DateTime        @default(now())
 
     user    User    @relation(fields: [userId], references: [userId])
-    product Product @relation(fields: [productId], references: [id])
+    product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
     @@map("purchases")
 }

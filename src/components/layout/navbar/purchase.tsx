@@ -23,7 +23,9 @@ export const PurchaseNotification = () => {
       </PopoverTrigger>
       <PopoverContent align="end">
         <div className="">
-          <h3 className="text-lg font-bold capitalize">Pembelian produk</h3>
+          <h3 className="text-lg font-bold capitalize">
+            Pembelian produk ({isPending ? 0 : data?.length})
+          </h3>
         </div>
         {isPending ? (
           <div className="flex items-center justify-center py-6">
