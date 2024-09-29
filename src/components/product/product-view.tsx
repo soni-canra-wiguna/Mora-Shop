@@ -49,11 +49,11 @@ const EditProduct = ({ id }: { id: string }) => {}
 const Product = ({ image, name, id, priceInGold }: ItemProductProps) => {
   return (
     <Card className="flex flex-col gap-4">
-      <CardContent className="aspect-square w-full overflow-hidden rounded-md border-2 border-border">
+      <CardContent className="aspect-square w-full overflow-hidden border-b-2 border-border p-0">
         <img src={image} alt={name} className="h-full w-full object-cover" />
       </CardContent>
-      <CardFooter>
-        <span>priceGold : {priceInGold}</span>
+      <CardFooter className="justify-between">
+        <span>price : {priceInGold} 🪙</span>
         <div className="flex items-center gap-2">
           <Button size="icon" variant="neutral">
             <Edit className="size-4" />
