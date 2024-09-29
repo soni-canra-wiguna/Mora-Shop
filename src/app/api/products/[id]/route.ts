@@ -4,7 +4,7 @@ import { Validation } from "@/schema/validation"
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 
-export const POST = async (
+export const PATCH = async (
   req: NextRequest,
   { params }: { params: { id: string } },
 ) => {
