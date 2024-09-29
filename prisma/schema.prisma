@@ -30,22 +30,18 @@ model Product {
     @@map("products")
 }
 
-enum Status {
+enum PurchaseStatus {
     PAID
-    PENDING
-    SETTLEMENT
-    EXPIRE
-    CANCEL
-    FAILED
+    UNPAID
 }
 
 model Purchase {
-    id        String   @id @default(uuid())
+    id        String          @id @default(uuid())
     userId    String
     productId String
     goldSpent Int
-    status    Status
-    createdAt DateTime @default(now())
+    status    PurchaseStatus?
+    createdAt DateTime        @default(now())
 
     user    User    @relation(fields: [userId], references: [userId])
     product Product @relation(fields: [productId], references: [id])
