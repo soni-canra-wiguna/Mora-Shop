@@ -91,6 +91,7 @@ const EditProduct = ({ id, name, image, priceInGold }: ItemProductProps) => {
         description: "Produk berhasil di edit",
       })
       queryClient.invalidateQueries({ queryKey: ["products"] })
+      queryClient.invalidateQueries({ queryKey: ["purchases"] })
       setIsOpen(false)
     },
     onError: () => {
